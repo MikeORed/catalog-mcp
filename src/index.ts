@@ -51,7 +51,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       content: [
         {
           type: "text",
-          text: `Received message: ${args.message}`,
+          text: `Received message: ${args?.message}`,
         },
       ],
     };
