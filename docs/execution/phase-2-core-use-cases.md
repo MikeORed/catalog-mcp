@@ -1,11 +1,11 @@
 # Phase 2: Core Use Cases - Detailed Checklist
 
 **Phase**: 2 of 6  
-**Status**: ⬜ Not Started  
-**Started**: -  
+**Status**: 🔄 In Progress  
+**Started**: 2025-11-30  
 **Completed**: -  
 **Estimated Effort**: 2-3 days  
-**Actual Effort**: -
+**Actual Effort**: ~2 hours (in progress)
 
 ---
 

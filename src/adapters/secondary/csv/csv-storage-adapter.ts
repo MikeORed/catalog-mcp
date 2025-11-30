@@ -1,15 +1,23 @@
+import { readFile } from 'fs/promises';
+import { parse } from 'csv-parse/sync';
 import { loadConfig } from '../config/config-loader.js';
 import { ProjectConfig, DatasetConfig } from '../../../domain/entities/dataset-config.js';
 import { DatasetSchema } from '../../../domain/entities/dataset-schema.js';
+import { DatasetId } from '../../../domain/value-objects/dataset-id.js';
+import { FieldType } from '../../../domain/value-objects/field-type.js';
+import { QueryResultRow } from '../../../domain/entities/query-result.js';
 import { ConfigError } from '../../../domain/errors/config-error.js';
+import { DatasetNotFoundError } from '../../../domain/errors/dataset-not-found-error.js';
+import { DatasetStoragePort } from '../../../ports/secondary/dataset-storage-port.js';
 
 /**
  * Adapter for CSV file storage
- * Handles configuration loading and validation
+ * Handles configuration loading, validation, and CSV data loading
  */
-export class CsvStorageAdapter {
+export class CsvStorageAdapter implements DatasetStoragePort {
   private config: ProjectConfig | null = null;
   private schemas: Map<string, DatasetSchema> = new Map();
+  private datasetConfigs: Map<string, DatasetConfig> = new Map();
 
   constructor(private readonly configPath: string) {}
 
@@ -31,6 +39,7 @@ export class CsvStorageAdapter {
       
       const schema = this.buildSchema(datasetConfig);
       this.schemas.set(schema.id, schema);
+      this.datasetConfigs.set(datasetConfig.id, datasetConfig);
     }
     
     console.error(`Successfully loaded ${this.schemas.size} dataset(s)`);
@@ -150,5 +159,99 @@ export class CsvStorageAdapter {
    */
   getConfig(): ProjectConfig | null {
     return this.config;
+  }
+
+  /**
+   * Implementation of DatasetStoragePort.listSchemas
+   */
+  listSchemas(): DatasetSchema[] {
+    return this.getSchemas();
+  }
+
+  /**
+   * Implementation of DatasetStoragePort.loadDataset
+   * Loads all rows from a CSV file
+   */
+  async loadDataset(datasetId: DatasetId): Promise<QueryResultRow[]> {
+    const config = this.datasetConfigs.get(datasetId);
+    if (!config) {
+      throw new DatasetNotFoundError(datasetId);
+    }
+
+    // Read CSV file
+    const csvContent = await readFile(config.path, 'utf-8');
+
+    // Parse CSV with header row
+    const records = parse(csvContent, {
+      columns: true,
+      skip_empty_lines: true,
+      trim: true,
+    });
+
+    // Convert and type-cast each row
+    return records.map((record: any) => this.convertRow(record, config));
+  }
+
+  /**
+   * Implementation of DatasetStoragePort.loadById
+   * Loads a single row by key field value
+   */
+  async loadById(datasetId: DatasetId, keyValue: string | number): Promise<QueryResultRow | undefined> {
+    const config = this.datasetConfigs.get(datasetId);
+    if (!config) {
+      throw new DatasetNotFoundError(datasetId);
+    }
+
+    // Load all rows (future optimization: stream and find)
+    const allRows = await this.loadDataset(datasetId);
+
+    // Find row with matching key field
+    return allRows.find((row) => row[config.keyField] === keyValue);
+  }
+
+  /**
+   * Convert a raw CSV record to a QueryResultRow with proper type casting
+   */
+  private convertRow(record: Record<string, string>, config: DatasetConfig): QueryResultRow {
+    const row: QueryResultRow = {};
+
+    for (const field of config.fields) {
+      const rawValue = record[field.name];
+
+      // Handle missing values
+      if (rawValue === undefined || rawValue === null || rawValue === '') {
+        row[field.name] = null;
+        continue;
+      }
+
+      // Type cast based on field type
+      switch (field.type) {
+        case FieldType.String:
+        case FieldType.Enum:
+          row[field.name] = rawValue;
+          break;
+
+        case FieldType.Number:
+          const num = Number(rawValue);
+          row[field.name] = isNaN(num) ? null : num;
+          break;
+
+        case FieldType.Boolean:
+          const lower = rawValue.toLowerCase();
+          if (lower === 'true' || lower === '1' || lower === 'yes') {
+            row[field.name] = true;
+          } else if (lower === 'false' || lower === '0' || lower === 'no') {
+            row[field.name] = false;
+          } else {
+            row[field.name] = null;
+          }
+          break;
+
+        default:
+          row[field.name] = null;
+      }
+    }
+
+    return row;
   }
 }
