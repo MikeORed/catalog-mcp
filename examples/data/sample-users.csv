@@ -1,0 +1,6 @@
+user_id,email,first_name,last_name,department,active
+user1,alice@example.com,Alice,Smith,Engineering,true
+user2,bob@example.com,Bob,Johnson,Engineering,true
+user3,charlie@example.com,Charlie,Brown,Sales,true
+user4,diana@example.com,Diana,Prince,Marketing,false
+user5,eve@example.com,Eve,Anderson,Engineering,true

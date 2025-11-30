@@ -1,73 +1,54 @@
 #!/usr/bin/env node
 
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import {
-  ListToolsRequestSchema,
-  CallToolRequestSchema,
-} from "@modelcontextprotocol/sdk/types.js";
+import { CsvStorageAdapter } from './adapters/secondary/csv/csv-storage-adapter.js';
+import { McpServer } from './adapters/primary/mcp/mcp-server.js';
 
-// Create server instance
-const server = new Server(
-  {
-    name: "catalog-mcp",
-    version: "0.1.0",
-  },
-  {
-    capabilities: {
-      tools: {},
-    },
-  }
-);
-
-// List available tools
-server.setRequestHandler(ListToolsRequestSchema, async () => {
-  return {
-    tools: [
-      {
-        name: "example_tool",
-        description: "An example tool placeholder",
-        inputSchema: {
-          type: "object",
-          properties: {
-            message: {
-              type: "string",
-              description: "A message to process",
-            },
-          },
-          required: ["message"],
-        },
-      },
-    ],
-  };
-});
-
-// Handle tool calls
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  const { name, arguments: args } = request.params;
-
-  if (name === "example_tool") {
-    return {
-      content: [
-        {
-          type: "text",
-          text: `Received message: ${args?.message}`,
-        },
-      ],
-    };
-  }
-
-  throw new Error(`Unknown tool: ${name}`);
-});
-
-// Start server
+/**
+ * Main entry point for the Catalog MCP Server
+ * 
+ * Loads configuration, initializes storage, and starts the MCP server
+ */
 async function main() {
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
-  console.error("Catalog MCP Server running on stdio");
+  try {
+    // Get config path from environment variable or command line argument
+    const configPath = process.env.CATALOG_CONFIG_PATH || process.argv[2];
+
+    if (!configPath) {
+      console.error('Error: Configuration path not provided');
+      console.error('Usage: catalog-mcp <config-path>');
+      console.error('  Or set CATALOG_CONFIG_PATH environment variable');
+      process.exit(1);
+    }
+
+    console.error(`Initializing Catalog MCP Server...`);
+    console.error(`Config path: ${configPath}`);
+
+    // Initialize storage adapter
+    const storage = new CsvStorageAdapter(configPath);
+    await storage.initialize();
+
+    // Create and start MCP server
+    const mcpServer = new McpServer(storage, 'catalog-mcp', '1.0.0');
+    await mcpServer.start();
+
+    // Handle graceful shutdown
+    const shutdown = async () => {
+      console.error('Shutting down...');
+      await storage.shutdown();
+      await mcpServer.stop();
+      process.exit(0);
+    };
+
+    process.on('SIGINT', shutdown);
+    process.on('SIGTERM', shutdown);
+
+  } catch (error) {
+    console.error('Fatal error during startup:', error instanceof Error ? error.message : String(error));
+    if (error instanceof Error && error.stack) {
+      console.error(error.stack);
+    }
+    process.exit(1);
+  }
 }
 
-main().catch((error) => {
-  console.error("Fatal error:", error);
-  process.exit(1);
-});
+main();

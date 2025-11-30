@@ -21,7 +21,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@modelcontextprotocol/sdk": "^1.23.0",
     "chokidar": "^5.0.0",
     "csv-parse": "^6.1.0",
     "zod": "^4.1.13"

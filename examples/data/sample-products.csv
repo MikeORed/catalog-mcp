@@ -1,0 +1,6 @@
+product_id,name,category,price,in_stock
+prod1,Laptop,Electronics,999.99,true
+prod2,Desk Chair,Home,199.99,true
+prod3,Novel,Books,14.99,true
+prod4,Running Shoes,Sports,89.99,false
+prod5,Headphones,Electronics,149.99,true
