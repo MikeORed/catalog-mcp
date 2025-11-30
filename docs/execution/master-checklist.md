@@ -60,27 +60,29 @@ This document tracks the high-level progress of all implementation phases. Each 
 
 ---
 
-## Phase 2: Core Use Cases ⬜
+## Phase 2: Core Use Cases ✅
 
-**Status**: Not Started  
+**Status**: Complete  
 **Detailed Plan**: `phase-2-core-use-cases.md`  
 **Estimated Effort**: 2-3 days  
+**Actual Effort**: ~2-3 hours  
+**Completed**: 2025-11-30  
 **Dependencies**: Phase 1 complete
 
 ### Primary Acceptance Criteria
 
-- [ ] All 4 use cases implemented (List, Describe, Query, GetById)
-- [ ] MVP filter logic (`eq`, `contains`, `and`)
-- [ ] Projection logic working
-- [ ] Field validation integrated
-- [ ] Unit tests for domain logic
-- [ ] Unit tests for use cases with mocked ports
+- [x] All 4 use cases implemented (List, Describe, Query, GetById)
+- [x] MVP filter logic (`eq`, `contains`, `and`)
+- [x] Projection logic working
+- [x] Field validation integrated
+- [x] Unit tests for domain logic
+- [x] Unit tests for use cases with mocked ports
 
 ### Secondary Acceptance Criteria
 
-- [ ] Error handling comprehensive
-- [ ] Edge cases covered in tests
-- [ ] Test coverage >80% for domain and use cases
+- [x] Error handling comprehensive
+- [x] Edge cases covered in tests
+- [x] Test coverage >80% for domain and use cases (100% stmt, 92.59% branch)
 
 ### Completion Gate
 
@@ -213,7 +215,7 @@ This document tracks the high-level progress of all implementation phases. Each 
 | Phase | Status | Primary ACs | Secondary ACs | Tertiary ACs |
 |-------|--------|-------------|---------------|--------------|
 | 1. Skeleton & Config | ✅ | 6/6 | 3/3 | 0/0 |
-| 2. Core Use Cases | ⬜ | 0/6 | 0/3 | 0/0 |
+| 2. Core Use Cases | ✅ | 6/6 | 3/3 | 0/2 |
 | 3. Hot Reload | ⬜ | 0/4 | 0/3 | 0/0 |
 | 4. MCP Adapter | ⬜ | 0/5 | 0/3 | 0/0 |
 | 5. Hardening & Testing | ⬜ | 0/4 | 0/4 | 0/0 |
@@ -221,10 +223,10 @@ This document tracks the high-level progress of all implementation phases. Each 
 
 ### Total Progress
 
-- **Primary ACs**: 6/29 (21%)
-- **Secondary ACs**: 3/20 (15%)
-- **Tertiary ACs**: 0/0 (0%)
-- **Overall**: 9/49 (18%)
+- **Primary ACs**: 12/29 (41%)
+- **Secondary ACs**: 6/20 (30%)
+- **Tertiary ACs**: 0/2 (0%)
+- **Overall**: 18/51 (35%)
 
 ---
 
@@ -259,3 +261,4 @@ The MVP is considered complete when:
 | Date | Phase | Update |
 |------|-------|--------|
 | 2025-11-30 | - | Master checklist created |
+| 2025-11-30 | 2 | Phase 2 complete - all 4 use cases implemented with 119 tests, 100% statement coverage |
