@@ -1,5 +1,6 @@
 import { readFile } from 'fs/promises';
 import { parse } from 'csv-parse/sync';
+import { watch, FSWatcher } from 'chokidar';
 import { loadConfig } from '../config/config-loader.js';
 import { ProjectConfig, DatasetConfig } from '../../../domain/entities/dataset-config.js';
 import { DatasetSchema } from '../../../domain/entities/dataset-schema.js';
@@ -18,6 +19,7 @@ export class CsvStorageAdapter implements DatasetStoragePort {
   private config: ProjectConfig | null = null;
   private schemas: Map<string, DatasetSchema> = new Map();
   private datasetConfigs: Map<string, DatasetConfig> = new Map();
+  private watcher: FSWatcher | null = null;
 
   constructor(private readonly configPath: string) {}
 
@@ -43,6 +45,99 @@ export class CsvStorageAdapter implements DatasetStoragePort {
     }
     
     console.error(`Successfully loaded ${this.schemas.size} dataset(s)`);
+
+    // Setup file watcher for hot reload
+    this.setupFileWatcher();
+  }
+
+  /**
+   * Setup file watcher for configuration hot reload
+   * Only watches the config file - CSV data is loaded on-demand
+   */
+  private setupFileWatcher(): void {
+    try {
+      this.watcher = watch(this.configPath, {
+        persistent: true,
+        ignoreInitial: true, // Don't trigger on initial file scan
+        awaitWriteFinish: {
+          stabilityThreshold: 300, // Wait 300ms for file write to stabilize
+          pollInterval: 100,
+        },
+      });
+
+      this.watcher.on('change', async (path) => {
+        console.error(`Configuration file changed: ${path}`);
+        await this.reload();
+      });
+
+      this.watcher.on('error', (error) => {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error(`File watcher error: ${message}`);
+      });
+
+      console.error(`File watcher active for: ${this.configPath}`);
+    } catch (error: unknown) {
+      console.error(`Failed to setup file watcher: ${error instanceof Error ? error.message : String(error)}`);
+      // Don't fail initialization - hot reload is optional
+    }
+  }
+
+  /**
+   * Atomic reload of configuration
+   * Implements atomic swap pattern: build complete new state, then swap if valid
+   * On error: preserve previous state and log error
+   */
+  async reload(): Promise<void> {
+    const startTime = Date.now();
+    console.error('Starting configuration reload...');
+
+    try {
+      // Load NEW configuration (don't touch current state)
+      const newConfig = await this.loadConfiguration();
+
+      // Build NEW schemas and configs completely
+      const newSchemas = new Map<string, DatasetSchema>();
+      const newDatasetConfigs = new Map<string, DatasetConfig>();
+
+      for (const datasetConfig of newConfig.datasets) {
+        // Validate each dataset
+        this.validateDatasetConfig(datasetConfig);
+
+        // Build schema
+        const schema = this.buildSchema(datasetConfig);
+        newSchemas.set(schema.id, schema);
+        newDatasetConfigs.set(datasetConfig.id, datasetConfig);
+      }
+
+      // ATOMIC SWAP: Only if all validation passed
+      this.config = newConfig;
+      this.schemas = newSchemas;
+      this.datasetConfigs = newDatasetConfigs;
+
+      const duration = Date.now() - startTime;
+      console.error(`Configuration reloaded successfully in ${duration}ms (${this.schemas.size} dataset(s))`);
+    } catch (error: unknown) {
+      const duration = Date.now() - startTime;
+      console.error(`Configuration reload failed after ${duration}ms: ${error instanceof Error ? error.message : String(error)}`);
+      console.error('Previous configuration preserved - server continues with old state');
+      // Previous state is preserved - no changes made to this.config, this.schemas, this.datasetConfigs
+    }
+  }
+
+  /**
+   * Shutdown the adapter and cleanup resources
+   * Stops file watcher and releases resources
+   */
+  async shutdown(): Promise<void> {
+    console.error('Shutting down CSV storage adapter...');
+
+    if (this.watcher) {
+      await this.watcher.close();
+      this.watcher = null;
+      console.error('File watcher stopped');
+    }
+
+    console.error('CSV storage adapter shutdown complete');
   }
 
   /**
