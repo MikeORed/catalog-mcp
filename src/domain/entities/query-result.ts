@@ -13,11 +13,17 @@ export interface QueryResult {
   /** The rows returned by the query */
   rows: QueryResultRow[];
   
-  /** Total number of rows returned */
+  /** Total number of rows returned (after limiting) */
   count: number;
+  
+  /** Whether a limit was applied to the query */
+  limitApplied: boolean;
   
   /** Whether the result was truncated due to limits */
   truncated: boolean;
+  
+  /** Total number of rows that matched the filter (before limiting) */
+  totalMatched: number;
   
   /** The fields included in each row */
   fields: FieldName[];

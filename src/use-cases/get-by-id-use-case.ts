@@ -55,7 +55,9 @@ export class GetByIdUseCase {
       return {
         rows: [],
         count: 0,
+        limitApplied: false,
         truncated: false,
+        totalMatched: 0,
         fields: fieldsToReturn,
       };
     }
@@ -67,7 +69,9 @@ export class GetByIdUseCase {
     return {
       rows: projectedRows,
       count: 1,
+      limitApplied: false, // GetById always returns exactly one row
       truncated: false,
+      totalMatched: 1,
       fields: fieldsToReturn,
     };
   }

@@ -75,11 +75,13 @@ export class QueryDatasetUseCase {
     // Determine if result was truncated
     const wasTruncated = this.limitService.wasTruncated(filteredRows.length, effectiveLimit);
 
-    // Return result
+    // Return result with complete truncation metadata
     return {
       rows: projectedRows,
       count: projectedRows.length,
+      limitApplied: true, // A limit is always applied (either default or explicit)
       truncated: wasTruncated,
+      totalMatched: filteredRows.length,
       fields: fieldsToReturn,
     };
   }
