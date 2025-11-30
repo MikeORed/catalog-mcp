@@ -1,0 +1,102 @@
+{
+  "datasets": [
+    {
+      "id": "users",
+      "name": "User Directory",
+      "description": "Company user directory with contact information",
+      "path": "./data/users.csv",
+      "fields": [
+        {
+          "name": "user_id",
+          "type": "string",
+          "isKey": true,
+          "isLookupKey": true
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "isKey": false,
+          "isLookupKey": true
+        },
+        {
+          "name": "first_name",
+          "type": "string",
+          "isKey": false,
+          "isLookupKey": false
+        },
+        {
+          "name": "last_name",
+          "type": "string",
+          "isKey": false,
+          "isLookupKey": false
+        },
+        {
+          "name": "department",
+          "type": "enum",
+          "enumValues": ["Engineering", "Sales", "Marketing", "HR", "Finance"],
+          "isKey": false,
+          "isLookupKey": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "isKey": false,
+          "isLookupKey": false
+        }
+      ],
+      "keyField": "user_id",
+      "lookupKeys": ["user_id", "email"],
+      "visibleFields": ["user_id", "email", "first_name", "last_name", "department"],
+      "limits": {
+        "defaultLimit": 50,
+        "maxLimit": 200
+      }
+    },
+    {
+      "id": "products",
+      "name": "Product Catalog",
+      "description": "Product inventory and pricing information",
+      "path": "./data/products.csv",
+      "fields": [
+        {
+          "name": "product_id",
+          "type": "string",
+          "isKey": true,
+          "isLookupKey": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "isKey": false,
+          "isLookupKey": false
+        },
+        {
+          "name": "category",
+          "type": "enum",
+          "enumValues": ["Electronics", "Clothing", "Books", "Home", "Sports"],
+          "isKey": false,
+          "isLookupKey": false
+        },
+        {
+          "name": "price",
+          "type": "number",
+          "isKey": false,
+          "isLookupKey": false
+        },
+        {
+          "name": "in_stock",
+          "type": "boolean",
+          "isKey": false,
+          "isLookupKey": false
+        }
+      ],
+      "keyField": "product_id",
+      "lookupKeys": ["product_id"],
+      "visibleFields": ["product_id", "name", "category", "price", "in_stock"],
+      "limits": {
+        "defaultLimit": 100,
+        "maxLimit": 500
+      }
+    }
+  ]
+}

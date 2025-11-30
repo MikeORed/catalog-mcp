@@ -1,11 +1,11 @@
 # Phase 1: Skeleton & Config - Detailed Checklist
 
 **Phase**: 1 of 6  
-**Status**: ⬜ Not Started  
-**Started**: -  
-**Completed**: -  
+**Status**: ✅ Complete  
+**Started**: 2025-11-30  
+**Completed**: 2025-11-30  
 **Estimated Effort**: 1-2 days  
-**Actual Effort**: -
+**Actual Effort**: ~2 hours
 
 ---
 
@@ -415,16 +415,29 @@ Set up the foundational project structure, define domain types, implement config
 ## Implementation Notes
 
 **Key Files Created:**
-- (List will be populated during implementation)
+- `src/domain/value-objects/` - dataset-id.ts, field-name.ts, field-type.ts
+- `src/domain/entities/` - dataset-field.ts, dataset-schema.ts, dataset-config.ts, filter-expression.ts, query-request.ts, query-result.ts
+- `src/domain/errors/` - All 5 error classes + index.ts
+- `src/domain/services/` - dataset-catalog-service.ts, field-validator.ts
+- `src/adapters/secondary/config/` - config-schema.ts, config-loader.ts
+- `src/adapters/secondary/csv/` - csv-storage-adapter.ts (skeleton)
+- `config/datasets.example.json` - Example configuration with 2 datasets
 
 **Decisions Made:**
-- (Document any implementation decisions made during this phase)
+- Used Zod for schema validation (provides excellent error messages)
+- Implemented comprehensive validation in both Zod schema and CsvStorageAdapter
+- Domain errors preserve stack traces for debugging
+- FieldValidator service uses recursive extraction for compound filters
+- Configuration validation is fail-fast with clear, actionable error messages
 
 **Issues Encountered:**
-- (Track any blockers or challenges)
+- Initial Zod enum syntax issue (errorMap vs message parameter) - resolved
+- ZodError.errors vs ZodError.issues property - resolved
 
 **Technical Debt:**
-- (Note any shortcuts or TODOs for future)
+- Unit tests deferred to Phase 2 (as per plan)
+- CSV file loading not yet implemented (Phase 2)
+- Actual dataset querying not yet implemented (Phase 2)
 
 ---
 
