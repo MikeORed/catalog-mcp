@@ -406,8 +406,10 @@ Responsibilities:
 
   * Validate explicit type definitions.
   * Load CSV file on-demand (not maintained in memory).
-  * Support hot reload via file watching.
+  * Support hot reload of configuration via file watching.
 * Implement `DatasetStoragePort`.
+
+**Hot Reload Clarification:** Hot reload applies to the configuration file only. CSV data is loaded on-demand from disk on every query, so CSV content changes are immediately visible without any reload mechanism. Only the in-memory schema structures need reloading when `datasets.json` changes.
 
 Pseudo-init:
 

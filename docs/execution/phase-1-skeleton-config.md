@@ -439,6 +439,9 @@ Set up the foundational project structure, define domain types, implement config
 - CSV file loading not yet implemented (Phase 2)
 - Actual dataset querying not yet implemented (Phase 2)
 
+**Hot Reload Foundation:**
+The on-demand CSV loading implemented in `CsvStorageAdapter.loadDataset()` provides the foundation for hot reload. Since CSV data is never cached in memory, CSV file changes are immediately visible on next query without requiring any reload mechanism. Phase 3 will add configuration file watching to reload schemas when `datasets.json` changes, but the CSV data itself needs no reload support.
+
 ---
 
 ## Phase Retrospective
