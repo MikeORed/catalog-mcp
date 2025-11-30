@@ -1,6 +1,16 @@
-product_id,name,category,price,in_stock
-prod1,Laptop,Electronics,999.99,true
-prod2,Desk Chair,Home,199.99,true
-prod3,Novel,Books,14.99,true
-prod4,Running Shoes,Sports,89.99,false
-prod5,Headphones,Electronics,149.99,true
+id,name,price,category,in_stock
+1,Laptop,999.99,electronics,true
+2,Desk Chair,199.99,home,true
+3,Novel,14.99,books,true
+4,Running Shoes,89.99,clothing,false
+5,Headphones,149.99,electronics,true
+6,Coffee Table,299.99,home,true
+7,Cookbook,24.99,books,true
+8,Winter Jacket,179.99,clothing,true
+9,Monitor,449.99,electronics,false
+10,T-Shirt,19.99,clothing,true
+11,Programming Book,49.99,books,true
+12,Lamp,34.99,home,true
+13,Mouse,29.99,electronics,true
+14,Jeans,59.99,clothing,true
+15,Bookshelf,149.99,home,false

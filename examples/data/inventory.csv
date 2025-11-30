@@ -1,0 +1,21 @@
+sku,product_name,quantity,unit_price,category,warehouse,reorder_needed,supplier
+SKU-E001,Laptop Computer,45,899.99,electronics,north,false,TechSupply Co
+SKU-E002,Wireless Mouse,120,24.99,electronics,central,false,TechSupply Co
+SKU-E003,Monitor 27inch,32,349.99,electronics,north,true,DisplayTech
+SKU-C001,T-Shirt,200,15.99,clothing,south,false,Fashion Direct
+SKU-C002,Jeans,85,49.99,clothing,south,false,Fashion Direct
+SKU-C003,Winter Jacket,25,129.99,clothing,south,true,OutdoorWear Inc
+SKU-F001,Office Chair,60,199.99,furniture,east,false,OfficePro
+SKU-F002,Standing Desk,18,449.99,furniture,east,true,OfficePro
+SKU-F003,Bookshelf,40,89.99,furniture,west,false,HomeFurnish
+SKU-A001,Coffee Maker,55,79.99,appliances,central,false,HomeAppliance Co
+SKU-A002,Microwave,30,149.99,appliances,central,true,HomeAppliance Co
+SKU-A003,Toaster,95,34.99,appliances,central,false,HomeAppliance Co
+SKU-T001,Basketball,150,29.99,toys,west,false,ToysRUs
+SKU-T002,Board Game,75,39.99,toys,west,false,ToysRUs
+SKU-T003,Action Figure,200,19.99,toys,west,false,ToysRUs
+SKU-S001,Running Shoes,110,89.99,sports,south,false,SportGear
+SKU-S002,Yoga Mat,80,29.99,sports,west,false,SportGear
+SKU-S003,Dumbbells,45,59.99,sports,west,true,SportGear
+SKU-E004,Keyboard,95,79.99,electronics,north,false,TechSupply Co
+SKU-E005,Webcam,40,99.99,electronics,central,true,TechSupply Co

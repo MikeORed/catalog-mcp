@@ -1,0 +1,16 @@
+employee_id,first_name,last_name,email,department,title,salary,remote,start_date
+1001,Alice,Johnson,alice.johnson@example.com,engineering,Senior Engineer,120000,true,2020-03-15
+1002,Bob,Smith,bob.smith@example.com,engineering,Lead Engineer,135000,true,2019-01-10
+1003,Carol,Williams,carol.williams@example.com,sales,Sales Manager,95000,false,2021-06-01
+1004,David,Brown,david.brown@example.com,marketing,Marketing Director,110000,false,2018-11-20
+1005,Eve,Davis,eve.davis@example.com,hr,HR Manager,85000,false,2020-08-05
+1006,Frank,Miller,frank.miller@example.com,engineering,Software Engineer,95000,true,2021-02-14
+1007,Grace,Wilson,grace.wilson@example.com,sales,Sales Representative,75000,false,2022-04-10
+1008,Henry,Moore,henry.moore@example.com,finance,Financial Analyst,80000,false,2021-09-01
+1009,Iris,Taylor,iris.taylor@example.com,engineering,DevOps Engineer,105000,true,2020-05-20
+1010,Jack,Anderson,jack.anderson@example.com,marketing,Content Manager,72000,true,2022-01-15
+1011,Kate,Thomas,kate.thomas@example.com,engineering,Junior Engineer,75000,true,2023-03-01
+1012,Leo,Jackson,leo.jackson@example.com,sales,Sales Director,125000,false,2017-08-12
+1013,Maria,White,maria.white@example.com,hr,HR Specialist,65000,false,2022-07-20
+1014,Nathan,Harris,nathan.harris@example.com,finance,Finance Manager,115000,false,2019-06-15
+1015,Olivia,Martin,olivia.martin@example.com,marketing,Social Media Manager,68000,true,2023-02-01

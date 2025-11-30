@@ -1,0 +1,88 @@
+{
+  "datasets": [
+    {
+      "id": "users",
+      "name": "User Directory",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "role",
+            "type": "enum",
+            "values": ["admin", "user", "guest"]
+          },
+          {
+            "name": "active",
+            "type": "boolean"
+          }
+        ],
+        "visibleFields": ["id", "name", "email", "role", "active"]
+      },
+      "source": {
+        "type": "csv",
+        "path": "./examples/data/sample-users.csv"
+      },
+      "lookupKey": "id",
+      "limits": {
+        "maxRows": 100,
+        "defaultRows": 20
+      }
+    },
+    {
+      "id": "products",
+      "name": "Product Catalog",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "price",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "category",
+            "type": "enum",
+            "values": ["electronics", "clothing", "books", "home"]
+          },
+          {
+            "name": "in_stock",
+            "type": "boolean"
+          }
+        ],
+        "visibleFields": ["id", "name", "price", "category", "in_stock"]
+      },
+      "source": {
+        "type": "csv",
+        "path": "./examples/data/sample-products.csv"
+      },
+      "lookupKey": "id",
+      "limits": {
+        "maxRows": 50,
+        "defaultRows": 10
+      }
+    }
+  ]
+}

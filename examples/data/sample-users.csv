@@ -1,6 +1,11 @@
-user_id,email,first_name,last_name,department,active
-user1,alice@example.com,Alice,Smith,Engineering,true
-user2,bob@example.com,Bob,Johnson,Engineering,true
-user3,charlie@example.com,Charlie,Brown,Sales,true
-user4,diana@example.com,Diana,Prince,Marketing,false
-user5,eve@example.com,Eve,Anderson,Engineering,true
+id,name,email,role,active
+1,Alice Smith,alice@example.com,admin,true
+2,Bob Johnson,bob@example.com,user,true
+3,Charlie Brown,charlie@example.com,user,true
+4,Diana Prince,diana@example.com,guest,false
+5,Eve Anderson,eve@example.com,user,true
+6,Frank Miller,frank@example.com,admin,true
+7,Grace Lee,grace@example.com,user,true
+8,Henry Wilson,henry@example.com,user,false
+9,Iris Chen,iris@example.com,guest,true
+10,Jack Taylor,jack@example.com,user,true

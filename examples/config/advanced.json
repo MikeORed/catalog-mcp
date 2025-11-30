@@ -1,0 +1,180 @@
+{
+  "datasets": [
+    {
+      "id": "employees",
+      "name": "Employee Database",
+      "schema": {
+        "fields": [
+          {
+            "name": "employee_id",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "first_name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "last_name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "department",
+            "type": "enum",
+            "values": ["engineering", "sales", "marketing", "hr", "finance"]
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "name": "salary",
+            "type": "number"
+          },
+          {
+            "name": "remote",
+            "type": "boolean"
+          },
+          {
+            "name": "start_date",
+            "type": "string"
+          }
+        ],
+        "visibleFields": ["employee_id", "first_name", "last_name", "department", "title", "remote"]
+      },
+      "source": {
+        "type": "csv",
+        "path": "./examples/data/employees.csv"
+      },
+      "lookupKey": "employee_id",
+      "limits": {
+        "maxRows": 200,
+        "defaultRows": 25
+      }
+    },
+    {
+      "id": "inventory",
+      "name": "Warehouse Inventory",
+      "schema": {
+        "fields": [
+          {
+            "name": "sku",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "product_name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "quantity",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "unit_price",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "category",
+            "type": "enum",
+            "values": ["electronics", "clothing", "furniture", "appliances", "toys", "sports"]
+          },
+          {
+            "name": "warehouse",
+            "type": "enum",
+            "values": ["north", "south", "east", "west", "central"]
+          },
+          {
+            "name": "reorder_needed",
+            "type": "boolean"
+          },
+          {
+            "name": "supplier",
+            "type": "string"
+          }
+        ],
+        "visibleFields": ["sku", "product_name", "quantity", "category", "warehouse", "reorder_needed"]
+      },
+      "source": {
+        "type": "csv",
+        "path": "./examples/data/inventory.csv"
+      },
+      "lookupKey": "sku",
+      "limits": {
+        "maxRows": 500,
+        "defaultRows": 50
+      }
+    },
+    {
+      "id": "orders",
+      "name": "Customer Orders",
+      "schema": {
+        "fields": [
+          {
+            "name": "order_id",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "customer_name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "product",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "quantity",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "total",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "status",
+            "type": "enum",
+            "values": ["pending", "processing", "shipped", "delivered", "cancelled"]
+          },
+          {
+            "name": "priority",
+            "type": "enum",
+            "values": ["low", "medium", "high", "urgent"]
+          },
+          {
+            "name": "paid",
+            "type": "boolean"
+          },
+          {
+            "name": "order_date",
+            "type": "string"
+          }
+        ],
+        "visibleFields": ["order_id", "customer_name", "product", "quantity", "total", "status", "priority", "paid"]
+      },
+      "source": {
+        "type": "csv",
+        "path": "./examples/data/orders.csv"
+      },
+      "lookupKey": "order_id",
+      "limits": {
+        "maxRows": 1000,
+        "defaultRows": 100
+      }
+    }
+  ]
+}

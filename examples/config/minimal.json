@@ -1,0 +1,32 @@
+{
+  "datasets": [
+    {
+      "id": "simple",
+      "name": "Simple Dataset",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "visibleFields": ["id", "name"]
+      },
+      "source": {
+        "type": "csv",
+        "path": "./examples/data/minimal.csv"
+      },
+      "lookupKey": "id",
+      "limits": {
+        "maxRows": 100,
+        "defaultRows": 20
+      }
+    }
+  ]
+}
