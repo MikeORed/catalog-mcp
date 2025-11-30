@@ -220,7 +220,7 @@ Query a dataset with optional filters, field projection, and limits.
     "datasetId": "users",
     "filters": {
       "field": "role",
-      "operator": "eq",
+      "op": "eq",
       "value": "admin"
     },
     "limit": 10
@@ -235,10 +235,9 @@ Query a dataset with optional filters, field projection, and limits.
   "arguments": {
     "datasetId": "users",
     "filters": {
-      "operator": "and",
-      "conditions": [
-        { "field": "role", "operator": "eq", "value": "admin" },
-        { "field": "name", "operator": "contains", "value": "smith" }
+      "and": [
+        { "field": "role", "op": "eq", "value": "admin" },
+        { "field": "name", "op": "contains", "value": "smith" }
       ]
     }
   }
@@ -317,7 +316,7 @@ Exact match (case-sensitive for strings).
 ```json
 {
   "field": "role",
-  "operator": "eq",
+  "op": "eq",
   "value": "admin"
 }
 ```
@@ -328,7 +327,7 @@ Case-insensitive substring search.
 ```json
 {
   "field": "name",
-  "operator": "contains",
+  "op": "contains",
   "value": "smith"
 }
 ```
@@ -338,10 +337,9 @@ All conditions must be true.
 
 ```json
 {
-  "operator": "and",
-  "conditions": [
-    { "field": "role", "operator": "eq", "value": "admin" },
-    { "field": "active", "operator": "eq", "value": true }
+  "and": [
+    { "field": "role", "op": "eq", "value": "admin" },
+    { "field": "active", "op": "eq", "value": true }
   ]
 }
 ```
@@ -354,7 +352,7 @@ All filter expressions follow this canonical JSON structure:
 ```json
 {
   "field": "fieldName",
-  "operator": "eq" | "contains",
+  "op": "eq" | "contains",
   "value": any
 }
 ```
@@ -362,10 +360,9 @@ All filter expressions follow this canonical JSON structure:
 **Compound filter (and):**
 ```json
 {
-  "operator": "and",
-  "conditions": [
-    { "field": "...", "operator": "...", "value": ... },
-    { "field": "...", "operator": "...", "value": ... }
+  "and": [
+    { "field": "...", "op": "...", "value": ... },
+    { "field": "...", "op": "...", "value": ... }
   ]
 }
 ```
@@ -513,7 +510,9 @@ No server restart needed!
 
 ## AI Usage Guidelines
 
-This MCP server is designed for AI assistants querying structured data. When designing datasets:
+This server is optimized for **local, schema-aware access to CSV-backed reference data** – the kind of data I use for project design, exploration, documentation aggregation, and hobby systems. For high-volume or mission-critical production workloads, you would typically pair LLMs with a dedicated database-backed MCP server and keep this catalog focused on lightweight, structured datasets close to the agent.
+
+When designing datasets:
 
 ### Dataset Design for AI
 
@@ -686,7 +685,7 @@ test/
 
 ## Roadmap
 
-### ✅ MVP Complete (Phases 1-5)
+### ✅ MVP Complete (All 6 Phases)
 
 - [x] Hexagonal architecture
 - [x] 4 MCP tools (list, describe, query, get_by_id)
@@ -695,6 +694,7 @@ test/
 - [x] Hot reload support
 - [x] Comprehensive test coverage
 - [x] Error handling and logging
+- [x] Complete documentation (README, dev guide, examples)
 
 ### 🚀 Post-MVP Features
 
@@ -713,6 +713,7 @@ See [docs/project-plans/project-plan-v1.final.md](docs/project-plans/project-pla
 
 ## Documentation
 
+- **[Project Overview](docs/overview/mcp-data-catalog.md)** - Development approach and engineering narrative
 - **[Developer Guide](docs/dev/mcp-data-catalog.md)** - Architecture and internals
 - **[Configuration Reference](examples/config/README.md)** - Complete config documentation
 - **[Examples](examples/README.md)** - Sample datasets and configs
